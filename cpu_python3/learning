@@ -1,0 +1,14 @@
+# TensorFlow 실행
+import tensorflow as tf
+
+# Python Print로 Version 출력
+print(tf.__version__)
+
+# 상수의  Default node 선언
+hellotensorflow = tf.constant("Hello TensorFlow!")
+
+# Session을 생성
+sess = tf.Session()
+
+# Python Print로 출력
+print(sess.run(hellotensorflow))
