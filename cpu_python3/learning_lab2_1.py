@@ -1,6 +1,7 @@
 # TensorFlow 실행
 import tensorflow as tf
 
+# train 값 사전 정의
 x_train = [1, 2, 3]
 y_train = [1, 2, 3]
 
