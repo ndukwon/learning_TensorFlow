@@ -11,7 +11,7 @@ W = tf.Variable(tf.random_normal([1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 hypothesis = X * W + b
 
-# Cost: 1/m * H(x)
+# Cost: 1/m * ∑(H(x) - y)^2
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
