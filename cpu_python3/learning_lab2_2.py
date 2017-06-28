@@ -1,4 +1,4 @@
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 # train 할 값 나중에 정의

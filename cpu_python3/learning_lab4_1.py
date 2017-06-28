@@ -1,6 +1,6 @@
-# Multi variables
+# Multi variables 학습
 
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 x1_data = [73., 93., 89., 96., 73.]

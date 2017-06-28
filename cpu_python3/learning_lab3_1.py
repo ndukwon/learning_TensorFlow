@@ -1,6 +1,6 @@
 # W에 따른 cost의 추이를 그래프로 표현하기
 
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 import matplotlib

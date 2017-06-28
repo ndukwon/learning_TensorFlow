@@ -1,6 +1,6 @@
 # GradientDescentOptimizer를 직접 해보기
 
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 x_data = [1, 2, 3]

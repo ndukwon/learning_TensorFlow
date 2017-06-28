@@ -1,4 +1,4 @@
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 # Lab 1 - 1

@@ -1,6 +1,6 @@
 # W 초기값을 지정하여 수행해보기
 
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 x_data = [1, 2, 3]

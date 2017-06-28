@@ -1,4 +1,4 @@
-# TensorFlow 실행
+# Loading TensorFlow
 import tensorflow as tf
 
 # train 값 사전 정의
