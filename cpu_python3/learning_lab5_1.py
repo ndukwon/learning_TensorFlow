@@ -20,4 +20,18 @@ cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis)
 
 train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
 
-predicted = tf.cast()
+predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)
+accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), tf.float32))
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+
+    for step in range(2001):
+        cost_val, _ = sess.run([cost, train], feed_dict={X:x_data, Y:y_data})
+
+        if step % 10 == 0:
+            print(step, cost_val)
+
+    # 정확성 체크
+    h, c, a = sess.run([hypothesis, predicted, accuracy], feed_dict={X:x_data, Y:y_data})
+    print("Hypothesis:\n", h, "\nCorrect (Y):", c, "\nAccuracy:", a)
