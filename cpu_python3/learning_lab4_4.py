@@ -17,6 +17,10 @@ key, value = reader.read(filename_queue)
 recode_defaults = [[0.], [0.], [0.], [0.]]
 xy = tf.decode_csv(value, record_defaults=recode_defaults)
 
+# turn features back into a tensor
+# train_x_batch, train_y_batch = tf.pack([xy[0:-1], xy[-1:]])   # AttributeError: module 'tensorflow' has no attribute 'pack'
+# train_x_batch, train_y_batch = tf.stack([xy[0:-1], xy[-1:]])  # tensorflow.python.framework.errors_impl.InvalidArgumentError: Dimension 0 in both shapes must be equal, but are 3 and 1
+
 # Decoder에 batch 단위 설정 연결하기
 train_x_batch, train_y_batch = tf.train.batch([xy[0:-1], xy[-1:]], batch_size=10)
 
@@ -30,7 +34,10 @@ b = tf.Variable(tf.random_normal([1]), name='bias')
 
 hypothesis = tf.matmul(X, W) + b
 
+# cost fuction
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
+
+# minimize
 optimizer = tf.train.GradientDescentOptimizer(learning_rate = 1e-5)
 train = optimizer.minimize(cost)
 
@@ -48,4 +55,11 @@ for step in range(2001):
 
 
 coord.request_stop()
-coord.join()
+coord.join(threads)
+
+# Ask my score
+print("Your score will be ",
+      sess.run(hypothesis, feed_dict={X: [[100, 70, 101]]}))
+
+print("Other scores will be ",
+      sess.run(hypothesis, feed_dict={X: [[60, 70, 110], [90, 100, 80]]}))
