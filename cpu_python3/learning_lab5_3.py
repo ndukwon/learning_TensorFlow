@@ -1,3 +1,4 @@
+# Logistic classification
 
 # Loading TensorFlow
 import tensorflow as tf
