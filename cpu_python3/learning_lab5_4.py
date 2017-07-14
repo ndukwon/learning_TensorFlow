@@ -3,6 +3,8 @@
 # Loading TensorFlow
 import tensorflow as tf
 
+import math
+
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -44,5 +46,16 @@ for i in range(-300, 300):
     cost_val.append(curr_cost)
 
 # matplotlib으로 표현하기
-plt.plot(W_val, cost_val)
+# plt.plot(W_val, cost_val)
+# plt.show()
+
+plt.scatter(x_data, y_data, c='black')
+# for x_input, w_input in zip(x_data, W_val):
+#     plt.scatter(x_input, x_input * w_input, c='blue')
+w_data = []
+for x_input, w_input in zip(x_data, W_val):
+    w_data.append(1 / (1 + math.exp(-x_input * w_input)))
+
+plt.plot(x_data, w_data, c='red', marker='*')
+
 plt.show()

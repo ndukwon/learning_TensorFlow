@@ -3,22 +3,19 @@
 # Loading TensorFlow
 import tensorflow as tf
 
-# Loading Numpy
-import numpy as np
-
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-xy = np.loadtxt('data-03-diabetes.csv', delimiter=',', dtype=np.float32)
+import numpy as np
 
-x_data = xy[:, 0:-1]
-y_data = xy[:, [-1]]
+x_data = [[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]]
+y_data = [[0], [0], [0], [1], [1], [1]]
 
-# shape 의미: X 는 8개 짜리 배열이 여러개(None) 들어간다
-X = tf.placeholder(tf.float32, shape=[None, 8])
+# shape 의미: X 는 2개 짜리 배열이 여러개(None) 들어간다
+X = tf.placeholder(tf.float32, shape=[None, 2])
 Y = tf.placeholder(tf.float32, shape=[None, 1])
-W = tf.Variable(tf.random_normal([8, 1]), name='weight')
+W = tf.Variable(tf.random_normal([2, 1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
 # H(x) = 1 / (1 + e^(-W * X))
@@ -45,7 +42,11 @@ with tf.Session() as sess:
     h, c, a = sess.run([hypothesis, predicted, accuracy], feed_dict={X:x_data, Y:y_data})
     print("Hypothesis:\n", h, "\nCorrect (Y):", c, "\nAccuracy:", a)
 
-x_line = [-1, 0, 1]
-
-plt.hist(x_line, xy[:, [0]], 'ro')
+# x_numpy = np.array(x_data)
+# plt.scatter(x_numpy[ : , [0]], x_numpy[ : , [1]])
+for x_points, y_point in zip(x_data, y_data):
+    color = 'black'
+    if y_point[0] == 1:
+        color = 'red'
+    plt.scatter(x_points[0], x_points[1], c=color)
 plt.show()
