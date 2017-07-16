@@ -20,10 +20,12 @@ Y = tf.placeholder(tf.float32)
 W = tf.placeholder(tf.float32)
 # W = tf.Variable(tf.random_normal([2, 1]), name='weight')
 
+# hypothesis = 1 / 1 + math.exp(-W * X)
 # H(x) = 1 / (1 + e^(-W * X))
 hypothesis = tf.sigmoid(X * W)
 
 # cost = tf.reduce_mean(tf.square(hypothesis - Y))
+
 # cost(W) = -1/m * ∑ (y * log(H(x)) + (1 - y) * log(1 - H(x))
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis))
 
@@ -42,20 +44,11 @@ for i in range(-300, 300):
     curr_cost, curr_W = sess.run([cost, W], feed_dict={W: feed_W, X:x_data, Y:y_data})
     print("curr_cost=", curr_cost)
     print("curr_W=", curr_W)
-    W_val.append(curr_W)
-    cost_val.append(curr_cost)
+
+    if curr_cost != 'nan' and curr_cost != 'inf':
+        W_val.append(curr_W)
+        cost_val.append(curr_cost)
 
 # matplotlib으로 표현하기
-# plt.plot(W_val, cost_val)
-# plt.show()
-
-plt.scatter(x_data, y_data, c='black')
-# for x_input, w_input in zip(x_data, W_val):
-#     plt.scatter(x_input, x_input * w_input, c='blue')
-w_data = []
-for x_input, w_input in zip(x_data, W_val):
-    w_data.append(1 / (1 + math.exp(-x_input * w_input)))
-
-plt.plot(x_data, w_data, c='red', marker='*')
-
+plt.plot(W_val, cost_val)
 plt.show()
