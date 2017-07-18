@@ -18,3 +18,13 @@ y_data = [[0, 0, 1],
           [0, 1, 0],
           [1, 0, 0],
           [1, 0, 0]]
+
+X = tf.placeholder("float", [None, 4])
+Y = tf.placeholder("float", [None, 3])
+nb_classes = 3
+
+W = tf.Variable(tf.random_normal([4, nb_classes], name='weight'))
+b = tf.Variable(tf.random_normal(nb_classes), name='bias')
+
+logits = tf.matmul(X, W) + b
+hypothesis = tf.nn.softmax(logits)
