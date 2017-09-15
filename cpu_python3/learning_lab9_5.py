@@ -78,13 +78,18 @@ with tf.Session() as sess :
 
 
 '''
-hypothesis: [[ 0.01457958]
- [ 0.97954673]
- [ 0.98729843]
- [ 0.0124397 ]]
-predicted: [[ 0.]
- [ 1.]
- [ 1.]
- [ 0.]]
-accuracy: 1.0
+Tensorboard는 그래프로 볼 수 있게 하는 툴
+임의로 로그를 찍어야 하며 찍은 기록에 대해서 웹페이지 분석도구를 통해 보여주는 것
+
+virtualenv를 사용할 때
+
+1. virtualenv에서 python 2.7 버전을 실행(물론 여기에 TensorFlow가 설치되어 있는 상태)
+(python 3 에서는 에러남)
+$ source ~/tf_py_2.7/bin/activate
+
+2. tensorboard를 실행
+$ tensorboard --logdir=[로그가 있는 디렉토리 경로]
+
+3. 웹페이지(로컬 또는 리모트) 열어서 확인
+- 로컬: 127.0.0.1:6006
 '''
