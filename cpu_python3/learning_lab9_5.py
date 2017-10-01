@@ -1,5 +1,4 @@
-# ML lab 09-1: Neural Net for XOR
-# with Neural network
+# ML lab 09-5: TensorBoard
 
 import tensorflow as tf
 import numpy as np
