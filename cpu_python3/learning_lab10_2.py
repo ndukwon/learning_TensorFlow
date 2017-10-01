@@ -1,7 +1,7 @@
 # MNIST Dataset
 '''
 Multinormial Classification problem
-With neural network and ReLU
+With neural network, ReLU and Xavier initialization
 '''
 
 import tensorflow as tf
@@ -26,20 +26,26 @@ X = tf.placeholder(tf.float32, [None, input_features])              # X: m * 784
 Y = tf.placeholder(tf.float32, [None, nb_classes])                  # Y: m * 10 Matrix
 
 # Layer 1
-W1 = tf.Variable(tf.random_normal([input_features, hidden_classes]))    # W1: 256 * 256 Matrix
-b1 = tf.Variable(tf.random_normal([hidden_classes]))                    # b1: 256-dimentional Vector
+# W1 = tf.Variable(tf.random_normal([784, hidden_classes]))
+W1 = tf.get_variable("W1", shape=[input_features, hidden_classes],
+                     initializer=tf.contrib.layers.xavier_initializer())    # W1: 784 * 256 Matrix
+b1 = tf.Variable(tf.random_normal([hidden_classes]))                        # b1: 256-dimentional Vector
 
 # Layer 2
 z2 = tf.matmul(X, W1) + b1
 a2 = tf.nn.relu(z2)
-W2 = tf.Variable(tf.random_normal([hidden_classes, hidden_classes]))    # W2: 256 * 256 Matrix
-b2 = tf.Variable(tf.random_normal([hidden_classes]))                    # b2: 256-dimentional Vector
+# W2 = tf.Variable(tf.random_normal([hidden_classes, hidden_classes]))
+W2 = tf.get_variable("W2", shape=[hidden_classes, hidden_classes],
+                     initializer=tf.contrib.layers.xavier_initializer())    # W2: 256 * 256 Matrix
+b2 = tf.Variable(tf.random_normal([hidden_classes]))                        # b2: 256-dimentional Vector
 
 # Layer 3
 z3 = tf.matmul(a2, W2) + b2
 a3 = tf.nn.relu(z3)
-W3 = tf.Variable(tf.random_normal([hidden_classes, nb_classes]))    # W3: 256 * 10 Matrix
-b3 = tf.Variable(tf.random_normal([nb_classes]))                    # b3: 10-dimentional Vector
+# W3 = tf.Variable(tf.random_normal([hidden_classes, nb_classes]))
+W3 = tf.get_variable("W3", shape=[hidden_classes, nb_classes],
+                     initializer=tf.contrib.layers.xavier_initializer())    # W3: 256 * 10 Matrix
+b3 = tf.Variable(tf.random_normal([nb_classes]))                            # b3: 10-dimentional Vector
 
 # Layer 4
 a4 = tf.matmul(a3, W3) + b3
@@ -94,22 +100,22 @@ with tf.Session() as sess:
 
 
 '''
-Epoch: 0001 cost= 142.426676695
-Epoch: 0002 cost= 38.811085416
-Epoch: 0003 cost= 24.322322562
-Epoch: 0004 cost= 16.859828000
-Epoch: 0005 cost= 12.303971603
-Epoch: 0006 cost= 9.098134073
-Epoch: 0007 cost= 6.894147496
-Epoch: 0008 cost= 5.085947123
-Epoch: 0009 cost= 3.897444666
-Epoch: 0010 cost= 2.903342553
-Epoch: 0011 cost= 2.137495041
-Epoch: 0012 cost= 1.653781394
-Epoch: 0013 cost= 1.229289456
-Epoch: 0014 cost= 1.030873799
-Epoch: 0015 cost= 0.797019765
-Accuracy: 0.9438
-label: [8]
-Prediction: [8]
+Epoch: 0001 cost= 0.297654168
+Epoch: 0002 cost= 0.110336847
+Epoch: 0003 cost= 0.073118404
+Epoch: 0004 cost= 0.052399898
+Epoch: 0005 cost= 0.039179944
+Epoch: 0006 cost= 0.027630599
+Epoch: 0007 cost= 0.023583468
+Epoch: 0008 cost= 0.016813198
+Epoch: 0009 cost= 0.015618802
+Epoch: 0010 cost= 0.016317315
+Epoch: 0011 cost= 0.011923650
+Epoch: 0012 cost= 0.011344563
+Epoch: 0013 cost= 0.012730559
+Epoch: 0014 cost= 0.006794711
+Epoch: 0015 cost= 0.009861775
+Accuracy: 0.9766
+label: [5]
+Prediction: [5]
 '''
