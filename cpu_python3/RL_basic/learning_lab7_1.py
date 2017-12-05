@@ -34,6 +34,10 @@ import random
 
 import gym
 env = gym.make('CartPole-v0')
+print('env._max_episode_steps=', env._max_episode_steps)
+env._max_episode_steps = 10001
+print('env._max_episode_steps=', env._max_episode_steps)
+
 input_size = env.observation_space.shape[0]
 output_size = env.action_space.n
 
@@ -65,8 +69,9 @@ def episode_play(env, episode, DQN, replay_buffer):
         step_count += 1
         if step_count > 10000:      # 이 정도면 오래 살렸다.
             break
+
     print('Episode {} steps {}'.format(episode, step_count))
-    return step_count
+    return step_count, replay_buffer
 
 
 def episode_optimize(DQN, replay_buffer):
@@ -87,11 +92,11 @@ def episode_optimize(DQN, replay_buffer):
             Q_real_stack = np.vstack([Q_real_stack, Q])
 
         cost, _ = DQN.update(state_stack, Q_real_stack)
-        print('Loss:', cost)
+        # print('Loss:', cost)
 
 
 def main():
-    max_episode = 2500
+    max_episode = 500
     replay_buffer = deque()
 
     with tf.Session() as sess:
@@ -101,7 +106,7 @@ def main():
         # Train
         for episode in range(max_episode):
             # Episode Play
-            step_count = episode_play(env, episode, mainDQN, replay_buffer)
+            step_count, replay_buffer = episode_play(env, episode, mainDQN, replay_buffer)
 
             if step_count > 10000:      # 이 정도 오래 살렸으면 학습 그만해도 되겠다.
                 pass
@@ -118,9 +123,8 @@ def main():
         while True:
             env.render()
             action = np.argmax(mainDQN.predict(state))
-            next_state, reward, done, info = env.step(action)
+            state, reward, done, info = env.step(action)
 
-            state = next_state
             reward_sum += reward
             if done:
                 print('Total score: {}'.format(reward_sum))
@@ -130,17 +134,11 @@ main()
 
 
 '''
-Loss: 1.99371
-Loss: 1.48049
-Loss: 3.59469
-Loss: 480.158
-Episode 492 steps 88
-Episode 493 steps 92
-Episode 494 steps 95
-Episode 495 steps 81
-Episode 496 steps 105
-Episode 497 steps 122
-Episode 498 steps 114
-Episode 499 steps 127
-Total score: 117.0
+Episode 494 steps 10001
+Episode 495 steps 2872
+Episode 496 steps 10001
+Episode 497 steps 894
+Episode 498 steps 93
+Episode 499 steps 129
+Total score: 10001.0
 '''

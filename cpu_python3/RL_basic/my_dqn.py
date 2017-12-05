@@ -11,10 +11,10 @@ class DQN:
         self._build_network()
 
     def _build_network(self, hidden_size=10, learning_rate=0.1):
-        with tf.variable_scope(self.net_name):
-            self._X = tf.placeholder(shape=[None, self.input_size], dtype=tf.float32)
-            self._Y = tf.placeholder(shape=[None, self.output_size], dtype=tf.float32)
+        self._X = tf.placeholder(tf.float32, shape=[None, self.input_size], name='input_x')
+        self._Y = tf.placeholder(tf.float32, shape=[None, self.output_size], name='input_y')
 
+        with tf.variable_scope(self.net_name):
             W1 = tf.get_variable('W1', shape=[self.input_size, hidden_size], dtype=tf.float32,
                                  initializer=tf.contrib.layers.xavier_initializer())
             Z1 = tf.matmul(self._X, W1)
@@ -29,16 +29,8 @@ class DQN:
         self._cost = tf.reduce_mean(loss)
         self._optimize = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self._cost)
 
-    def transform_to_X_data(self, states):
-        x_data = np.reshape(states, [-1, self.input_size])
-        return x_data
-
-    def transform_to_Y_data(self, Q_reals):
-        y_data = np.reshape(Q_reals, [-1, self.output_size])
-        return y_data
-
     def predict(self, state):
-        x_data = self.transform_to_X_data(state)
+        x_data = np.reshape(state, [1, self.input_size])
         return self.sess.run(self.Q_predict, feed_dict={self._X: x_data})
 
     def update(self, state_stack, Q_real_stack):

@@ -34,6 +34,7 @@ import random
 
 import gym
 env = gym.make('CartPole-v0')
+env._max_episode_steps = 10001
 input_size = env.observation_space.shape[0]
 output_size = env.action_space.n
 
@@ -66,7 +67,7 @@ def episode_play(env, episode, DQN, replay_buffer):
         if step_count > 10000:      # 이 정도면 오래 살렸다.
             break
     print('Episode {} steps {}'.format(episode, step_count))
-    return step_count
+    return step_count, replay_buffer
 
 
 def episode_optimize(DQN, targetDQN, replay_buffer):
@@ -87,7 +88,7 @@ def episode_optimize(DQN, targetDQN, replay_buffer):
             Q_real_stack = np.vstack([Q_real_stack, Q])
 
         cost, _ = DQN.update(state_stack, Q_real_stack)
-        print('Loss:', cost)
+        # print('Loss:', cost)
 
 def get_copy_var_ops(dest_scope_name='target', src_scope_name='main'):
     ops = []
@@ -102,7 +103,7 @@ def get_copy_var_ops(dest_scope_name='target', src_scope_name='main'):
 
 
 def main():
-    max_episode = 2500
+    max_episode = 500
     replay_buffer = deque()
 
     with tf.Session() as sess:
@@ -116,7 +117,7 @@ def main():
         # Train
         for episode in range(max_episode):
             # Episode Play
-            step_count = episode_play(env, episode, mainDQN, replay_buffer)
+            step_count, replay_buffer = episode_play(env, episode, mainDQN, replay_buffer)
 
             if step_count > 10000:      # 이 정도 오래 살렸으면 학습 그만해도 되겠다.
                 pass
